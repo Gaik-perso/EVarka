@@ -1,2 +1,2 @@
-# chargeshare-landing
-ChargeShare Landing page
+# EVarka-landing
+EVarka Landing page
