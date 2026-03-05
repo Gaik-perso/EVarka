@@ -3,19 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ChargeShare Poland - Podziel się ładowarką EV</title>
-    
+    <title>Evarka - P2P EV Charging w Polsce</title>
+    <meta name="description" content="Evarka - platforma P2P do ładowania pojazdów elektrycznych. Airbnb ładowania elektrycznego w Polsce.">
+
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=Syne:wght@800&display=swap" rel="stylesheet">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='7' fill='url(%23g)'/><defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='1'><stop offset='0' stop-color='%230A8754'/><stop offset='1' stop-color='%2305B86D'/></linearGradient></defs><path d='M18 4L8 18h7l-1 10L25 14h-7.5L18 4Z' fill='white'/></svg>">
     
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    <!-- ⚠️ IMPORTANTE: REMPLACEZ 'VOTRE_CLE_API_GOOGLE_MAPS' PAR VOTRE VRAIE CLÉ -->
+    <!-- Google Maps API -->
     <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBO7fMvnBTEDYHK6JPs-Z9UHmS91wYNuGk&callback=initMap&libraries=places"></script>
     
     <style>
-        /* Réutiliser tous les styles de la version précédente */
         * {
             margin: 0;
             padding: 0;
@@ -64,12 +67,42 @@
         }
 
         .logo {
-            font-size: 1.5rem;
-            font-weight: 800;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+        }
+
+        .logo-bolt {
+            width: 34px;
+            height: 34px;
+            border-radius: 9px;
             background: var(--gradient);
-            -webkit-background-clip: text;
-            background-clip: text;
-            -webkit-text-fill-color: transparent;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .logo-bolt svg {
+            width: 18px;
+            height: 18px;
+        }
+
+        .logo-wordmark {
+            font-family: 'Syne', sans-serif;
+            font-size: 1.35rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            line-height: 1;
+        }
+
+        .logo-ev {
+            color: var(--primary);
+        }
+
+        .logo-arka {
+            color: var(--dark);
         }
 
         .nav-links {
@@ -168,7 +201,7 @@
             color: var(--primary);
         }
 
-        /* ==================== GOOGLE MAPS CONTAINER ==================== */
+        /* Map Section */
         .map-section {
             padding: 5rem 0;
             background: var(--light);
@@ -271,6 +304,7 @@
         .form-group {
             margin-bottom: 1.5rem;
             text-align: left;
+            position: relative;
         }
 
         .form-group label {
@@ -305,6 +339,7 @@
             font-size: 1.1rem;
             font-weight: 700;
             cursor: pointer;
+            transition: transform 0.3s;
         }
 
         .form-submit:hover {
@@ -359,6 +394,10 @@
             #map {
                 height: 400px;
             }
+
+            .cta-buttons {
+                flex-direction: column;
+            }
         }
     </style>
 </head>
@@ -367,7 +406,14 @@
     <nav>
         <div class="container">
             <div class="nav-content">
-                <div class="logo">⚡ ChargeShare</div>
+                <div class="logo">
+                    <div class="logo-bolt">
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M13 2L4.5 13.5H11L10 22L20 10H13.5L13 2Z" fill="white"/>
+                        </svg>
+                    </div>
+                    <span class="logo-wordmark"><span class="logo-ev">EV</span><span class="logo-arka">arka</span></span>
+                </div>
                 <div class="nav-links">
                     <a href="#map-section">Mapa</a>
                     <a href="#stats">Statystyki</a>
@@ -454,25 +500,13 @@
         <div class="container">
             <div class="pre-reg-content">
                 <h2>Dołącz do Beta!</h2>
-                <p>Bądź wśród pierwszych użytkowników ChargeShare</p>
+                <p>Bądź wśród pierwszych użytkowników Evarka</p>
 
-                <!-- ⚠️ FORMULAIRE GOOGLE FORMS INTÉGRÉ -->
-                
-                <!-- Formulaire personnalisé qui POST vers Google Forms -->
-                <form class="registration-form hidden" id="customForm" 
+                <form class="registration-form" id="customForm" 
                       action="https://docs.google.com/forms/d/e/1FAIpQLScRiT0Zym7KRjgzUGe7FNRjn4AhZIECZ0HBck9V2IlgAeWp-w/formResponse" 
                       method="POST" 
                       target="hidden_iframe"
                       onsubmit="handleFormSubmit()">
-                    
-                    <!-- ⚠️ INSTRUCTIONS POUR OBTENIR LES entry.XXXXX :
-                         1. Ouvrir votre Google Form en mode édition
-                         2. Cliquer sur les 3 points > "Obtenir le lien prérempli"
-                         3. Remplir le formulaire avec des données test
-                         4. Copier le lien généré
-                         5. Le lien contient : entry.123456789=test@email.com
-                         6. Remplacer les entry.XXXXX ci-dessous par ces valeurs
-                    -->
                     
                     <div class="form-group">
                         <label for="email">
@@ -482,9 +516,7 @@
                                name="entry.900723696" 
                                id="email" 
                                required 
-                               placeholder="twoj@email.pl"
-                               style="padding-left: 45px;">
-                        <i class="fas fa-envelope" style="position: absolute; left: 15px; top: 48px; color: #6c757d;"></i>
+                               placeholder="twoj@email.pl">
                     </div>
 
                     <div class="form-group">
@@ -507,9 +539,7 @@
                                name="entry.1860861843" 
                                id="city" 
                                required 
-                               placeholder="np. Warszawa"
-                               style="padding-left: 45px;">
-                        <i class="fas fa-map-marker-alt" style="position: absolute; left: 15px; top: 48px; color: #6c757d;"></i>
+                               placeholder="np. Warszawa">
                     </div>
 
                     <button type="submit" class="form-submit">
@@ -517,7 +547,6 @@
                     </button>
                 </form>
                 
-                <!-- iframe caché pour la soumission sans redirection -->
                 <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;"></iframe>
             </div>
         </div>
@@ -528,33 +557,36 @@
         <div class="container">
             <div class="footer-content">
                 <div class="footer-section">
-                    <h3>ChargeShare</h3>
+                    <h3 style="display:flex;align-items:center;gap:8px;">
+                        <span style="width:26px;height:26px;border-radius:7px;background:var(--gradient);display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;">
+                            <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><path d="M13 2L4.5 13.5H11L10 22L20 10H13.5L13 2Z" fill="white"/></svg>
+                        </span>
+                        <span style="font-family:'Syne',sans-serif;font-weight:800;letter-spacing:-0.02em;"><span style="color:var(--secondary);">EV</span><span style="color:white;">arka</span></span>
+                    </h3>
                     <p>Rewolucja w ładowaniu pojazdów elektrycznych w Polsce</p>
                 </div>
 
                 <div class="footer-section">
                     <h3>Kontakt</h3>
-                    <p><i class="fas fa-envelope"></i> vincent@chargeshare.pl</p>
+                    <p><i class="fas fa-envelope"></i> <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="cdbba4a3aea8a3b98da8bbacbfa6ace3aea2a0">[email&#160;protected]</a></p>
                     <p>Zgodne z regulacjami URE</p>
                 </div>
             </div>
 
             <div class="footer-bottom">
-                <p>&copy; 2025 ChargeShare Poland. Wszelkie prawa zastrzeżone.</p>
+                <p>&copy; 2026 Evarka. Wszelkie prawa zastrzeżone.</p>
             </div>
         </div>
     </footer>
 
-    <!-- JavaScript -->
-    <!-- ⚠️ GOOGLE ANALYTICS 4 - REMPLACER G-XXXXXXXXXX -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-0NZQKXH851"></script>
+    <!-- Google Analytics 4 -->
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script async src="https://www.googletagmanager.com/gtag/js?id=G-0NZQKXH851"></script>
     
     <script>
-        // ==================== GOOGLE MAPS INITIALIZATION ====================
+        // ==================== GOOGLE MAPS ====================
         let map;
         let markers = [];
 
-        // Données de démonstration (à remplacer par API backend)
         const demoChargers = [
             { lat: 52.2297, lng: 21.0122, name: "Warszawa - Centrum", price: "1.50 PLN/kWh", power: "22 kW" },
             { lat: 52.2435, lng: 21.0131, name: "Warszawa - Praga", price: "1.20 PLN/kWh", power: "11 kW" },
@@ -565,29 +597,17 @@
         ];
 
         function initMap() {
-            // Centrer sur la Pologne
             map = new google.maps.Map(document.getElementById('map'), {
                 center: { lat: 52.0, lng: 19.5 },
                 zoom: 7,
-                styles: [
-                    {
-                        "featureType": "poi",
-                        "elementType": "labels",
-                        "stylers": [{ "visibility": "off" }]
-                    }
-                ]
+                styles: [{ "featureType": "poi", "elementType": "labels", "stylers": [{ "visibility": "off" }] }]
             });
-
-            // Ajouter les marqueurs de démonstration
             addMarkers();
         }
 
         function addMarkers() {
-            // Supprimer les anciens marqueurs
             markers.forEach(marker => marker.setMap(null));
             markers = [];
-
-            // Ajouter les nouveaux marqueurs
             demoChargers.forEach(charger => {
                 const marker = new google.maps.Marker({
                     position: { lat: charger.lat, lng: charger.lng },
@@ -603,8 +623,6 @@
                     },
                     animation: google.maps.Animation.DROP
                 });
-
-                // Info window
                 const infoWindow = new google.maps.InfoWindow({
                     content: `
                         <div style="padding: 10px; font-family: Inter;">
@@ -614,109 +632,62 @@
                             <button style="margin-top: 10px; padding: 8px 16px; background: linear-gradient(135deg, #0A8754, #05B86D); color: white; border: none; border-radius: 20px; cursor: pointer;">
                                 Zarezerwuj
                             </button>
-                        </div>
-                    `
+                        </div>`
                 });
-
-                marker.addListener('click', () => {
-                    infoWindow.open(map, marker);
-                });
-
+                marker.addListener('click', () => infoWindow.open(map, marker));
                 markers.push(marker);
             });
         }
 
-        // ==================== MAP CONTROLS ====================
-        function centerOnWarsaw() {
-            map.setCenter({ lat: 52.2297, lng: 21.0122 });
-            map.setZoom(12);
-        }
-
-        function centerOnKrakow() {
-            map.setCenter({ lat: 50.0647, lng: 19.9450 });
-            map.setZoom(12);
-        }
-
-        function centerOnGdansk() {
-            map.setCenter({ lat: 54.3520, lng: 18.6466 });
-            map.setZoom(12);
-        }
+        function centerOnWarsaw() { map.setCenter({ lat: 52.2297, lng: 21.0122 }); map.setZoom(12); }
+        function centerOnKrakow() { map.setCenter({ lat: 50.0647, lng: 19.9450 }); map.setZoom(12); }
+        function centerOnGdansk() { map.setCenter({ lat: 54.3520, lng: 18.6466 }); map.setZoom(12); }
 
         function getUserLocation() {
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(
                     (position) => {
-                        const userPos = {
-                            lat: position.coords.latitude,
-                            lng: position.coords.longitude
-                        };
+                        const userPos = { lat: position.coords.latitude, lng: position.coords.longitude };
                         map.setCenter(userPos);
                         map.setZoom(13);
-
-                        // Ajouter un marqueur pour la position de l'utilisateur
                         new google.maps.Marker({
-                            position: userPos,
-                            map: map,
-                            icon: {
-                                path: google.maps.SymbolPath.CIRCLE,
-                                scale: 8,
-                                fillColor: '#FF0000',
-                                fillOpacity: 1,
-                                strokeColor: '#FFFFFF',
-                                strokeWeight: 2
-                            }
+                            position: userPos, map: map,
+                            icon: { path: google.maps.SymbolPath.CIRCLE, scale: 8, fillColor: '#FF0000', fillOpacity: 1, strokeColor: '#FFFFFF', strokeWeight: 2 }
                         });
                     },
-                    () => {
-                        alert('Nie udało się uzyskać Twojej lokalizacji.');
-                    }
+                    () => alert('Nie udało się uzyskać Twojej lokalizacji.')
                 );
             } else {
                 alert('Geolokalizacja nie jest obsługiwana przez Twoją przeglądarkę.');
             }
         }
 
-        // ==================== FORM SUBMISSION ====================
+        // ==================== FORM ====================
         function handleFormSubmit() {
-            // Message de confirmation après soumission
             setTimeout(() => {
-                alert('🎉 Dziękujemy! Zapisaliśmy Cię na listę beta!');
+                alert('🎉 Dziękujemy! Zapisaliśmy Cię na listę beta Evarka!');
                 document.getElementById('customForm').reset();
             }, 1000);
             return true;
         }
 
-        // ==================== GOOGLE ANALYTICS 4 ====================
-        // ⚠️ REMPLACER 'G-XXXXXXXXXX' PAR VOTRE MEASUREMENT ID
-        // Pour obtenir : analytics.google.com > Admin > Data Streams > Web
+        // ==================== ANALYTICS ====================
         window.dataLayer = window.dataLayer || [];
         function gtag(){dataLayer.push(arguments);}
         gtag('js', new Date());
         gtag('config', 'G-0NZQKXH851');
-        
-        // Track custom events
-        function trackEvent(eventName, params) {
-            gtag('event', eventName, params);
-        }
-        
-        // Track CTA clicks
+
         document.querySelectorAll('.btn-primary, .btn-secondary').forEach(btn => {
             btn.addEventListener('click', function() {
-                trackEvent('cta_click', {
-                    button_text: this.textContent.trim(),
-                    button_location: this.closest('section').className
-                });
-            });
-        });
-        
-        // Track form interactions
-        document.getElementById('customForm')?.addEventListener('submit', function() {
-            trackEvent('form_submit', {
-                form_type: 'beta_registration'
+                gtag('event', 'cta_click', { button_text: this.textContent.trim() });
             });
         });
 
-        // ==================== LANGUAGE TOGGLE ====================
+        document.getElementById('customForm')?.addEventListener('submit', function() {
+            gtag('event', 'form_submit', { form_type: 'beta_registration' });
+        });
+
+        // ==================== LANGUAGE ====================
         function toggleLanguage() {
             alert('Fonction multilingue à implémenter avec i18n');
         }
@@ -724,13 +695,4 @@
         // ==================== SMOOTH SCROLL ====================
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({ behavior: 'smooth' });
-                }
-            });
-        });
-    </script>
-</body>
-</html>
+                e.prev
