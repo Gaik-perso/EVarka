@@ -5,404 +5,65 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Evarka - P2P EV Charging w Polsce</title>
     <meta name="description" content="Evarka - platforma P2P do ładowania pojazdów elektrycznych. Airbnb ładowania elektrycznego w Polsce.">
-
-    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=Syne:wght@800&display=swap" rel="stylesheet">
-    
-    <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='7' fill='url(%23g)'/><defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='1'><stop offset='0' stop-color='%230A8754'/><stop offset='1' stop-color='%2305B86D'/></linearGradient></defs><path d='M18 4L8 18h7l-1 10L25 14h-7.5L18 4Z' fill='white'/></svg>">
-    
-    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <!-- Google Maps API -->
     <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBO7fMvnBTEDYHK6JPs-Z9UHmS91wYNuGk&callback=initMap&libraries=places"></script>
-    
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        :root {
-            --primary: #0A8754;
-            --secondary: #05B86D;
-            --dark: #1a1a1a;
-            --light: #f8f9fa;
-            --white: #ffffff;
-            --gray: #6c757d;
-            --gradient: linear-gradient(135deg, #0A8754 0%, #05B86D 100%);
-        }
-
-        body {
-            font-family: 'Inter', sans-serif;
-            line-height: 1.6;
-            color: var(--dark);
-            overflow-x: hidden;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-
-        /* Navigation */
-        nav {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
-            z-index: 1000;
-        }
-
-        .nav-content {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1rem 0;
-        }
-
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            text-decoration: none;
-        }
-
-        .logo-bolt {
-            width: 34px;
-            height: 34px;
-            border-radius: 9px;
-            background: var(--gradient);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
-        }
-
-        .logo-bolt svg {
-            width: 18px;
-            height: 18px;
-        }
-
-        .logo-wordmark {
-            font-family: 'Syne', sans-serif;
-            font-size: 1.35rem;
-            font-weight: 800;
-            letter-spacing: -0.02em;
-            line-height: 1;
-        }
-
-        .logo-ev {
-            color: var(--primary);
-        }
-
-        .logo-arka {
-            color: var(--dark);
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 2rem;
-            align-items: center;
-        }
-
-        .nav-links a {
-            text-decoration: none;
-            color: var(--dark);
-            font-weight: 500;
-            transition: color 0.3s;
-        }
-
-        .nav-links a:hover {
-            color: var(--primary);
-        }
-
-        .lang-toggle {
-            background: var(--gradient);
-            color: white;
-            border: none;
-            padding: 0.5rem 1rem;
-            border-radius: 20px;
-            cursor: pointer;
-            font-weight: 600;
-        }
-
-        /* Hero */
-        .hero {
-            margin-top: 80px;
-            min-height: 90vh;
-            background: var(--gradient);
-            position: relative;
-            display: flex;
-            align-items: center;
-            color: white;
-        }
-
-        .hero-content {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 3rem;
-            align-items: center;
-        }
-
-        .hero-text h1 {
-            font-size: 3.5rem;
-            font-weight: 800;
-            line-height: 1.2;
-            margin-bottom: 1.5rem;
-        }
-
-        .hero-text p {
-            font-size: 1.3rem;
-            margin-bottom: 2rem;
-            opacity: 0.95;
-        }
-
-        .cta-buttons {
-            display: flex;
-            gap: 1rem;
-        }
-
-        .btn {
-            padding: 1rem 2rem;
-            border-radius: 50px;
-            text-decoration: none;
-            font-weight: 600;
-            transition: all 0.3s;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            font-size: 1.1rem;
-        }
-
-        .btn-primary {
-            background: white;
-            color: var(--primary);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-3px);
-        }
-
-        .btn-secondary {
-            background: rgba(255, 255, 255, 0.2);
-            color: white;
-            border: 2px solid white;
-        }
-
-        .btn-secondary:hover {
-            background: white;
-            color: var(--primary);
-        }
-
-        /* Map Section */
-        .map-section {
-            padding: 5rem 0;
-            background: var(--light);
-        }
-
-        .section-title {
-            text-align: center;
-            font-size: 2.5rem;
-            font-weight: 800;
-            margin-bottom: 3rem;
-            color: var(--dark);
-        }
-
-        #map {
-            width: 100%;
-            height: 600px;
-            border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
-        }
-
-        .map-controls {
-            text-align: center;
-            margin-bottom: 2rem;
-        }
-
-        .map-controls button {
-            background: var(--gradient);
-            color: white;
-            border: none;
-            padding: 1rem 2rem;
-            border-radius: 50px;
-            font-weight: 600;
-            cursor: pointer;
-            margin: 0 0.5rem;
-            transition: transform 0.3s;
-        }
-
-        .map-controls button:hover {
-            transform: scale(1.05);
-        }
-
-        /* Stats */
-        .stats {
-            padding: 5rem 0;
-        }
-
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
-            text-align: center;
-        }
-
-        .stat-card {
-            background: white;
-            padding: 2rem;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-        }
-
-        .stat-number {
-            font-size: 3rem;
-            font-weight: 800;
-            background: var(--gradient);
-            -webkit-background-clip: text;
-            background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .stat-label {
-            color: var(--gray);
-            font-weight: 600;
-        }
-
-        /* Pre-registration */
-        .pre-registration {
-            padding: 5rem 0;
-            background: var(--gradient);
-            color: white;
-        }
-
-        .pre-reg-content {
-            max-width: 700px;
-            margin: 0 auto;
-            text-align: center;
-        }
-
-        .pre-reg-content h2 {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
-        }
-
-        .registration-form {
-            background: white;
-            padding: 3rem;
-            border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-        }
-
-        .form-group {
-            margin-bottom: 1.5rem;
-            text-align: left;
-            position: relative;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 0.5rem;
-            color: var(--dark);
-            font-weight: 600;
-        }
-
-        .form-group input,
-        .form-group select {
-            width: 100%;
-            padding: 1rem;
-            border: 2px solid #e0e0e0;
-            border-radius: 10px;
-            font-size: 1rem;
-        }
-
-        .form-group input:focus,
-        .form-group select:focus {
-            outline: none;
-            border-color: var(--primary);
-        }
-
-        .form-submit {
-            width: 100%;
-            padding: 1.2rem;
-            background: var(--gradient);
-            color: white;
-            border: none;
-            border-radius: 50px;
-            font-size: 1.1rem;
-            font-weight: 700;
-            cursor: pointer;
-            transition: transform 0.3s;
-        }
-
-        .form-submit:hover {
-            transform: scale(1.05);
-        }
-
-        /* Footer */
-        footer {
-            background: var(--dark);
-            color: white;
-            padding: 3rem 0 1rem;
-        }
-
-        .footer-content {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
-            margin-bottom: 2rem;
-        }
-
-        .footer-section h3 {
-            margin-bottom: 1rem;
-            color: var(--secondary);
-        }
-
-        .footer-links {
-            list-style: none;
-        }
-
-        .footer-links a {
-            color: rgba(255, 255, 255, 0.8);
-            text-decoration: none;
-        }
-
-        .footer-bottom {
-            text-align: center;
-            padding-top: 2rem;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            color: rgba(255, 255, 255, 0.6);
-        }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            .hero-content {
-                grid-template-columns: 1fr;
-            }
-            
-            .hero-text h1 {
-                font-size: 2rem;
-            }
-            
-            #map {
-                height: 400px;
-            }
-
-            .cta-buttons {
-                flex-direction: column;
-            }
-        }
+        *{margin:0;padding:0;box-sizing:border-box}
+        :root{--primary:#0A8754;--secondary:#05B86D;--dark:#1a1a1a;--light:#f8f9fa;--white:#ffffff;--gray:#6c757d;--gradient:linear-gradient(135deg,#0A8754 0%,#05B86D 100%)}
+        body{font-family:'Inter',sans-serif;line-height:1.6;color:var(--dark);overflow-x:hidden}
+        .container{max-width:1200px;margin:0 auto;padding:0 20px}
+        nav{position:fixed;top:0;width:100%;background:rgba(255,255,255,0.95);backdrop-filter:blur(10px);box-shadow:0 2px 20px rgba(0,0,0,0.1);z-index:1000}
+        .nav-content{display:flex;justify-content:space-between;align-items:center;padding:1rem 0}
+        .logo{display:flex;align-items:center;gap:10px;text-decoration:none}
+        .logo-bolt{width:34px;height:34px;border-radius:9px;background:var(--gradient);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+        .logo-bolt svg{width:18px;height:18px}
+        .logo-wordmark{font-family:'Syne',sans-serif;font-size:1.35rem;font-weight:800;letter-spacing:-0.02em;line-height:1}
+        .logo-ev{color:var(--primary)}.logo-arka{color:var(--dark)}
+        .nav-links{display:flex;gap:2rem;align-items:center}
+        .nav-links a{text-decoration:none;color:var(--dark);font-weight:500;transition:color 0.3s}
+        .nav-links a:hover{color:var(--primary)}
+        .lang-toggle{background:var(--gradient);color:white;border:none;padding:0.5rem 1rem;border-radius:20px;cursor:pointer;font-weight:600}
+        .hero{margin-top:80px;min-height:90vh;background:var(--gradient);display:flex;align-items:center;color:white}
+        .hero-content{display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:center}
+        .hero-text h1{font-size:3.5rem;font-weight:800;line-height:1.2;margin-bottom:1.5rem}
+        .hero-text p{font-size:1.3rem;margin-bottom:2rem;opacity:0.95}
+        .cta-buttons{display:flex;gap:1rem}
+        .btn{padding:1rem 2rem;border-radius:50px;text-decoration:none;font-weight:600;transition:all 0.3s;display:inline-flex;align-items:center;gap:0.5rem;font-size:1.1rem}
+        .btn-primary{background:white;color:var(--primary);box-shadow:0 10px 30px rgba(0,0,0,0.2)}
+        .btn-primary:hover{transform:translateY(-3px)}
+        .btn-secondary{background:rgba(255,255,255,0.2);color:white;border:2px solid white}
+        .btn-secondary:hover{background:white;color:var(--primary)}
+        .map-section{padding:5rem 0;background:var(--light)}
+        .section-title{text-align:center;font-size:2.5rem;font-weight:800;margin-bottom:3rem;color:var(--dark)}
+        #map{width:100%;height:600px;border-radius:20px;box-shadow:0 20px 60px rgba(0,0,0,0.15)}
+        .map-controls{text-align:center;margin-bottom:2rem}
+        .map-controls button{background:var(--gradient);color:white;border:none;padding:1rem 2rem;border-radius:50px;font-weight:600;cursor:pointer;margin:0 0.5rem;transition:transform 0.3s}
+        .map-controls button:hover{transform:scale(1.05)}
+        .stats{padding:5rem 0}
+        .stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:2rem;text-align:center}
+        .stat-card{background:white;padding:2rem;border-radius:15px;box-shadow:0 10px 30px rgba(0,0,0,0.1)}
+        .stat-number{font-size:3rem;font-weight:800;background:var(--gradient);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+        .stat-label{color:var(--gray);font-weight:600}
+        .pre-registration{padding:5rem 0;background:var(--gradient);color:white}
+        .pre-reg-content{max-width:700px;margin:0 auto;text-align:center}
+        .pre-reg-content h2{font-size:2.5rem;margin-bottom:1rem}
+        .registration-form{background:white;padding:3rem;border-radius:20px;box-shadow:0 20px 60px rgba(0,0,0,0.3)}
+        .form-group{margin-bottom:1.5rem;text-align:left;position:relative}
+        .form-group label{display:block;margin-bottom:0.5rem;color:var(--dark);font-weight:600}
+        .form-group input,.form-group select{width:100%;padding:1rem;border:2px solid #e0e0e0;border-radius:10px;font-size:1rem}
+        .form-group input:focus,.form-group select:focus{outline:none;border-color:var(--primary)}
+        .form-submit{width:100%;padding:1.2rem;background:var(--gradient);color:white;border:none;border-radius:50px;font-size:1.1rem;font-weight:700;cursor:pointer;transition:transform 0.3s}
+        .form-submit:hover{transform:scale(1.05)}
+        footer{background:var(--dark);color:white;padding:3rem 0 1rem}
+        .footer-content{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:2rem;margin-bottom:2rem}
+        .footer-section h3{margin-bottom:1rem;color:var(--secondary)}
+        .footer-bottom{text-align:center;padding-top:2rem;border-top:1px solid rgba(255,255,255,0.1);color:rgba(255,255,255,0.6)}
+        @media(max-width:768px){.hero-content{grid-template-columns:1fr}.hero-text h1{font-size:2rem}#map{height:400px}.cta-buttons{flex-direction:column}}
     </style>
 </head>
 <body>
-    <!-- Navigation -->
     <nav>
         <div class="container">
             <div class="nav-content">
@@ -424,7 +85,6 @@
         </div>
     </nav>
 
-    <!-- Hero -->
     <section class="hero">
         <div class="container">
             <div class="hero-content">
@@ -432,127 +92,73 @@
                     <h1>Podziel się ładowarką EV i zarabiaj!</h1>
                     <p>Airbnb ładowania elektrycznego w Polsce. Znajdź ładowarki w całym kraju.</p>
                     <div class="cta-buttons">
-                        <a href="#join" class="btn btn-primary">
-                            <i class="fas fa-user-plus"></i> Zostań Gospodarzem
-                        </a>
-                        <a href="#map-section" class="btn btn-secondary">
-                            <i class="fas fa-map-marked-alt"></i> Przeglądaj Mapę
-                        </a>
+                        <a href="#join" class="btn btn-primary"><i class="fas fa-user-plus"></i> Zostań Gospodarzem</a>
+                        <a href="#map-section" class="btn btn-secondary"><i class="fas fa-map-marked-alt"></i> Przeglądaj Mapę</a>
                     </div>
                 </div>
                 <div class="hero-visual">
-                    <img src="https://images.unsplash.com/photo-1593941707882-a5bba14938c7?w=600&h=400&fit=crop" alt="EV Charging" style="border-radius: 20px; width: 100%; box-shadow: 0 20px 60px rgba(0,0,0,0.3);">
+                    <img src="https://images.unsplash.com/photo-1593941707882-a5bba14938c7?w=600&h=400&fit=crop" alt="EV Charging" style="border-radius:20px;width:100%;box-shadow:0 20px 60px rgba(0,0,0,0.3);">
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Google Maps Section -->
     <section class="map-section" id="map-section">
         <div class="container">
             <h2 class="section-title">Znajdź Ładowarki w Twojej Okolicy</h2>
-            
             <div class="map-controls">
-                <button onclick="centerOnWarsaw()">
-                    <i class="fas fa-location-dot"></i> Warszawa
-                </button>
-                <button onclick="centerOnKrakow()">
-                    <i class="fas fa-location-dot"></i> Kraków
-                </button>
-                <button onclick="centerOnGdansk()">
-                    <i class="fas fa-location-dot"></i> Gdańsk
-                </button>
-                <button onclick="getUserLocation()">
-                    <i class="fas fa-crosshairs"></i> Moja Lokalizacja
-                </button>
+                <button onclick="centerOnWarsaw()"><i class="fas fa-location-dot"></i> Warszawa</button>
+                <button onclick="centerOnKrakow()"><i class="fas fa-location-dot"></i> Kraków</button>
+                <button onclick="centerOnGdansk()"><i class="fas fa-location-dot"></i> Gdańsk</button>
+                <button onclick="getUserLocation()"><i class="fas fa-crosshairs"></i> Moja Lokalizacja</button>
             </div>
-            
             <div id="map"></div>
         </div>
     </section>
 
-    <!-- Stats -->
     <section class="stats" id="stats">
         <div class="container">
             <div class="stats-grid">
-                <div class="stat-card">
-                    <div class="stat-number">89K+</div>
-                    <div class="stat-label">Pojazdów elektrycznych w Polsce</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-number">95%</div>
-                    <div class="stat-label">Ładowarek prywatnych niewykorzystanych</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-number">30%</div>
-                    <div class="stat-label">Taniej niż publiczne ładowanie</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-number">540 PLN</div>
-                    <div class="stat-label">Średni miesięczny przychód gospodarza</div>
-                </div>
+                <div class="stat-card"><div class="stat-number">89K+</div><div class="stat-label">Pojazdów elektrycznych w Polsce</div></div>
+                <div class="stat-card"><div class="stat-number">95%</div><div class="stat-label">Ładowarek prywatnych niewykorzystanych</div></div>
+                <div class="stat-card"><div class="stat-number">30%</div><div class="stat-label">Taniej niż publiczne ładowanie</div></div>
+                <div class="stat-card"><div class="stat-number">540 PLN</div><div class="stat-label">Średni miesięczny przychód gospodarza</div></div>
             </div>
         </div>
     </section>
 
-    <!-- Pre-Registration -->
     <section class="pre-registration" id="join">
         <div class="container">
             <div class="pre-reg-content">
                 <h2>Dołącz do Beta!</h2>
-                <p>Bądź wśród pierwszych użytkowników Evarka</p>
-
-                <form class="registration-form" id="customForm" 
-                      action="https://docs.google.com/forms/d/e/1FAIpQLScRiT0Zym7KRjgzUGe7FNRjn4AhZIECZ0HBck9V2IlgAeWp-w/formResponse" 
-                      method="POST" 
-                      target="hidden_iframe"
-                      onsubmit="handleFormSubmit()">
-                    
+                <p>Bądź wśród pierwszych użytkowników EVarka</p>
+                <form class="registration-form" id="customForm"
+                      action="https://docs.google.com/forms/d/e/1FAIpQLScRiT0Zym7KRjgzUGe7FNRjn4AhZIECZ0HBck9V2IlgAeWp-w/formResponse"
+                      method="POST" target="hidden_iframe" onsubmit="handleFormSubmit()">
                     <div class="form-group">
-                        <label for="email">
-                            <i class="fas fa-envelope"></i> Adres Email
-                        </label>
-                        <input type="email" 
-                               name="entry.900723696" 
-                               id="email" 
-                               required 
-                               placeholder="twoj@email.pl">
+                        <label for="email"><i class="fas fa-envelope"></i> Adres Email</label>
+                        <input type="email" name="entry.900723696" id="email" required placeholder="twoj@email.pl" autocomplete="email">
                     </div>
-
                     <div class="form-group">
-                        <label for="role">
-                            <i class="fas fa-user-tag"></i> Jestem...
-                        </label>
-                        <select name="entry.2040123220" id="role" required>
+                        <label for="role"><i class="fas fa-user-tag"></i> Jestem...</label>
+                        <select name="entry.2040123220" id="role" required autocomplete="off">
                             <option value="">Wybierz rolę</option>
                             <option value="Gospodarz">🏠 Gospodarz (mam ładowarkę)</option>
                             <option value="Użytkownik">🔌 Użytkownik (szukam ładowania)</option>
                             <option value="Oboje">⚡ Oboje</option>
                         </select>
                     </div>
-
                     <div class="form-group">
-                        <label for="city">
-                            <i class="fas fa-map-marker-alt"></i> Miasto
-                        </label>
-                        <input type="text" 
-                               name="entry.1860861843" 
-                               id="city" 
-                               required 
-                               placeholder="np. Warszawa">
+                        <label for="city"><i class="fas fa-map-marker-alt"></i> Miasto</label>
+                        <input type="text" name="entry.1860861843" id="city" required placeholder="np. Warszawa" autocomplete="address-level2">
                     </div>
-
-                    <button type="submit" class="form-submit">
-                        <i class="fas fa-rocket"></i> Zapisz się na Beta
-                    </button>
+                    <button type="submit" class="form-submit"><i class="fas fa-rocket"></i> Zapisz się na Beta</button>
                 </form>
-                
                 <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;"></iframe>
             </div>
         </div>
     </section>
 
-    <!-- Footer -->
     <footer>
         <div class="container">
             <div class="footer-content">
@@ -561,32 +167,28 @@
                         <span style="width:26px;height:26px;border-radius:7px;background:var(--gradient);display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;">
                             <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><path d="M13 2L4.5 13.5H11L10 22L20 10H13.5L13 2Z" fill="white"/></svg>
                         </span>
-                        <span style="font-family:'Syne',sans-serif;font-weight:800;letter-spacing:-0.02em;"><span style="color:var(--secondary);">EV</span><span style="color:white;">arka</span></span>
+                        <span style="font-family:'Syne',sans-serif;font-weight:800;letter-spacing:-0.02em;">
+                            <span style="color:var(--secondary);">EV</span><span style="color:white;">arka</span>
+                        </span>
                     </h3>
                     <p>Rewolucja w ładowaniu pojazdów elektrycznych w Polsce</p>
                 </div>
-
                 <div class="footer-section">
                     <h3>Kontakt</h3>
-                    <p><i class="fas fa-envelope"></i> <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="cdbba4a3aea8a3b98da8bbacbfa6ace3aea2a0">[email&#160;protected]</a></p>
+                    <p><i class="fas fa-envelope"></i> <a href="mailto:vincent@evarka.com" style="color:rgba(255,255,255,0.8);text-decoration:none;">vincent@evarka.com</a></p>
                     <p>Zgodne z regulacjami URE</p>
                 </div>
             </div>
-
             <div class="footer-bottom">
-                <p>&copy; 2026 Evarka. Wszelkie prawa zastrzeżone.</p>
+                <p>&copy; 2026 EVarka. Wszelkie prawa zastrzeżone.</p>
             </div>
         </div>
     </footer>
 
-    <!-- Google Analytics 4 -->
-    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script async src="https://www.googletagmanager.com/gtag/js?id=G-0NZQKXH851"></script>
-    
+    <!-- Google Analytics 4 — NO Cloudflare scripts -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-0NZQKXH851"></script>
     <script>
-        // ==================== GOOGLE MAPS ====================
-        let map;
-        let markers = [];
-
+        let map, markers = [];
         const demoChargers = [
             { lat: 52.2297, lng: 21.0122, name: "Warszawa - Centrum", price: "1.50 PLN/kWh", power: "22 kW" },
             { lat: 52.2435, lng: 21.0131, name: "Warszawa - Praga", price: "1.20 PLN/kWh", power: "11 kW" },
@@ -595,104 +197,50 @@
             { lat: 54.3520, lng: 18.6466, name: "Gdańsk - Śródmieście", price: "1.60 PLN/kWh", power: "22 kW" },
             { lat: 51.7592, lng: 19.4560, name: "Łódź - Centrum", price: "1.30 PLN/kWh", power: "11 kW" }
         ];
-
         function initMap() {
             map = new google.maps.Map(document.getElementById('map'), {
-                center: { lat: 52.0, lng: 19.5 },
-                zoom: 7,
-                styles: [{ "featureType": "poi", "elementType": "labels", "stylers": [{ "visibility": "off" }] }]
+                center: { lat: 52.0, lng: 19.5 }, zoom: 7,
+                styles: [{ featureType: "poi", elementType: "labels", stylers: [{ visibility: "off" }] }]
             });
             addMarkers();
         }
-
         function addMarkers() {
-            markers.forEach(marker => marker.setMap(null));
-            markers = [];
+            markers.forEach(m => m.setMap(null)); markers = [];
             demoChargers.forEach(charger => {
                 const marker = new google.maps.Marker({
-                    position: { lat: charger.lat, lng: charger.lng },
-                    map: map,
+                    position: { lat: charger.lat, lng: charger.lng }, map,
                     title: charger.name,
-                    icon: {
-                        path: google.maps.SymbolPath.CIRCLE,
-                        scale: 10,
-                        fillColor: '#05B86D',
-                        fillOpacity: 0.8,
-                        strokeColor: '#0A8754',
-                        strokeWeight: 2
-                    },
+                    icon: { path: google.maps.SymbolPath.CIRCLE, scale: 10, fillColor: '#05B86D', fillOpacity: 0.8, strokeColor: '#0A8754', strokeWeight: 2 },
                     animation: google.maps.Animation.DROP
                 });
-                const infoWindow = new google.maps.InfoWindow({
-                    content: `
-                        <div style="padding: 10px; font-family: Inter;">
-                            <h3 style="margin: 0 0 10px 0; color: #0A8754;">${charger.name}</h3>
-                            <p style="margin: 5px 0;"><strong>Cena:</strong> ${charger.price}</p>
-                            <p style="margin: 5px 0;"><strong>Moc:</strong> ${charger.power}</p>
-                            <button style="margin-top: 10px; padding: 8px 16px; background: linear-gradient(135deg, #0A8754, #05B86D); color: white; border: none; border-radius: 20px; cursor: pointer;">
-                                Zarezerwuj
-                            </button>
-                        </div>`
-                });
-                marker.addListener('click', () => infoWindow.open(map, marker));
+                const iw = new google.maps.InfoWindow({ content: `<div style="padding:10px;font-family:Inter,sans-serif;"><h3 style="margin:0 0 10px;color:#0A8754;">${charger.name}</h3><p><strong>Cena:</strong> ${charger.price}</p><p><strong>Moc:</strong> ${charger.power}</p><button style="margin-top:10px;padding:8px 16px;background:linear-gradient(135deg,#0A8754,#05B86D);color:white;border:none;border-radius:20px;cursor:pointer;">Zarezerwuj</button></div>` });
+                marker.addListener('click', () => iw.open(map, marker));
                 markers.push(marker);
             });
         }
-
         function centerOnWarsaw() { map.setCenter({ lat: 52.2297, lng: 21.0122 }); map.setZoom(12); }
         function centerOnKrakow() { map.setCenter({ lat: 50.0647, lng: 19.9450 }); map.setZoom(12); }
         function centerOnGdansk() { map.setCenter({ lat: 54.3520, lng: 18.6466 }); map.setZoom(12); }
-
         function getUserLocation() {
             if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(
-                    (position) => {
-                        const userPos = { lat: position.coords.latitude, lng: position.coords.longitude };
-                        map.setCenter(userPos);
-                        map.setZoom(13);
-                        new google.maps.Marker({
-                            position: userPos, map: map,
-                            icon: { path: google.maps.SymbolPath.CIRCLE, scale: 8, fillColor: '#FF0000', fillOpacity: 1, strokeColor: '#FFFFFF', strokeWeight: 2 }
-                        });
-                    },
-                    () => alert('Nie udało się uzyskać Twojej lokalizacji.')
-                );
-            } else {
-                alert('Geolokalizacja nie jest obsługiwana przez Twoją przeglądarkę.');
-            }
+                navigator.geolocation.getCurrentPosition(pos => {
+                    const p = { lat: pos.coords.latitude, lng: pos.coords.longitude };
+                    map.setCenter(p); map.setZoom(13);
+                    new google.maps.Marker({ position: p, map, icon: { path: google.maps.SymbolPath.CIRCLE, scale: 8, fillColor: '#FF0000', fillOpacity: 1, strokeColor: '#FFF', strokeWeight: 2 } });
+                }, () => alert('Nie udało się uzyskać Twojej lokalizacji.'));
+            } else alert('Geolokalizacja nie jest obsługiwana przez Twoją przeglądarkę.');
         }
-
-        // ==================== FORM ====================
         function handleFormSubmit() {
-            setTimeout(() => {
-                alert('🎉 Dziękujemy! Zapisaliśmy Cię na listę beta Evarka!');
-                document.getElementById('customForm').reset();
-            }, 1000);
+            setTimeout(() => { alert('🎉 Dziękujemy! Zapisaliśmy Cię na listę beta EVarka!'); document.getElementById('customForm').reset(); }, 1000);
             return true;
         }
-
-        // ==================== ANALYTICS ====================
         window.dataLayer = window.dataLayer || [];
         function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'G-0NZQKXH851');
-
-        document.querySelectorAll('.btn-primary, .btn-secondary').forEach(btn => {
-            btn.addEventListener('click', function() {
-                gtag('event', 'cta_click', { button_text: this.textContent.trim() });
-            });
-        });
-
-        document.getElementById('customForm')?.addEventListener('submit', function() {
-            gtag('event', 'form_submit', { form_type: 'beta_registration' });
-        });
-
-        // ==================== LANGUAGE ====================
-        function toggleLanguage() {
-            alert('Fonction multilingue à implémenter avec i18n');
-        }
-
-        // ==================== SMOOTH SCROLL ====================
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.prev
+        gtag('js', new Date()); gtag('config', 'G-0NZQKXH851');
+        document.querySelectorAll('.btn-primary,.btn-secondary').forEach(btn => btn.addEventListener('click', function() { gtag('event','cta_click',{button_text:this.textContent.trim()}); }));
+        document.getElementById('customForm')?.addEventListener('submit', () => gtag('event','form_submit',{form_type:'beta_registration'}));
+        function toggleLanguage() { alert('Fonction multilingue à implémenter avec i18n'); }
+        document.querySelectorAll('a[href^="#"]').forEach(a => a.addEventListener('click', function(e) { e.preventDefault(); document.querySelector(this.getAttribute('href'))?.scrollIntoView({behavior:'smooth'}); }));
+    </script>
+</body>
+</html>
