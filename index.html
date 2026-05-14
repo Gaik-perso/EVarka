@@ -8,6 +8,18 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=Syne:wght@800&display=swap" rel="stylesheet">
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='7' fill='url(%23g)'/><defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='1'><stop offset='0' stop-color='%230A8754'/><stop offset='1' stop-color='%2305B86D'/></linearGradient></defs><path d='M18 4L8 18h7l-1 10L25 14h-7.5L18 4Z' fill='white'/></svg>">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!--
+        SECURITY — Google Maps API Key
+        This key MUST be restricted in Google Cloud Console:
+        → Console: https://console.cloud.google.com/apis/credentials
+        → HTTP referrer restrictions: evarka.com/* only
+        Without restriction, anyone can use it at your expense.
+
+        SECURITE — Clé API Google Maps
+        Cette clé doit être restreinte dans Google Cloud Console :
+        → Restrictions HTTP referrer : evarka.com/* uniquement
+        Sans restriction, n'importe qui peut l'utiliser à vos frais.
+    -->
     <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBO7fMvnBTEDYHK6JPs-Z9UHmS91wYNuGk&callback=initMap&libraries=places"></script>
     <style>
         *{margin:0;padding:0;box-sizing:border-box}
@@ -76,9 +88,9 @@
                     <span class="logo-wordmark"><span class="logo-ev">EV</span><span class="logo-arka">arka</span></span>
                 </div>
                 <div class="nav-links">
-                    <a href="#map-section">Mapa</a>
-                    <a href="#stats">Statystyki</a>
-                    <a href="#join">Dołącz</a>
+                    <a href="#map-section" data-i18n="nav.map">Mapa</a>
+                    <a href="#stats" data-i18n="nav.stats">Statystyki</a>
+                    <a href="#join" data-i18n="nav.join">Dołącz</a>
                     <button class="lang-toggle" onclick="toggleLanguage()">EN</button>
                 </div>
             </div>
@@ -89,11 +101,11 @@
         <div class="container">
             <div class="hero-content">
                 <div class="hero-text">
-                    <h1>Podziel się ładowarką EV i zarabiaj!</h1>
-                    <p>Airbnb ładowania elektrycznego w Polsce. Znajdź ładowarki w całym kraju.</p>
+                    <h1 data-i18n="hero.title">Podziel się ładowarką EV i zarabiaj!</h1>
+                    <p data-i18n="hero.sub">Airbnb ładowania elektrycznego w Polsce. Znajdź ładowarki w całym kraju.</p>
                     <div class="cta-buttons">
-                        <a href="#join" class="btn btn-primary"><i class="fas fa-user-plus"></i> Zostań Gospodarzem</a>
-                        <a href="#map-section" class="btn btn-secondary"><i class="fas fa-map-marked-alt"></i> Przeglądaj Mapę</a>
+                        <a href="#join" class="btn btn-primary"><i class="fas fa-user-plus"></i><span data-i18n="hero.cta1"> Zostań Gospodarzem</span></a>
+                        <a href="#map-section" class="btn btn-secondary"><i class="fas fa-map-marked-alt"></i><span data-i18n="hero.cta2"> Przeglądaj Mapę</span></a>
                     </div>
                 </div>
                 <div class="hero-visual">
@@ -105,12 +117,12 @@
 
     <section class="map-section" id="map-section">
         <div class="container">
-            <h2 class="section-title">Znajdź Ładowarki w Twojej Okolicy</h2>
+            <h2 class="section-title" data-i18n="map.title">Znajdź Ładowarki w Twojej Okolicy</h2>
             <div class="map-controls">
                 <button onclick="centerOnWarsaw()"><i class="fas fa-location-dot"></i> Warszawa</button>
                 <button onclick="centerOnKrakow()"><i class="fas fa-location-dot"></i> Kraków</button>
                 <button onclick="centerOnGdansk()"><i class="fas fa-location-dot"></i> Gdańsk</button>
-                <button onclick="getUserLocation()"><i class="fas fa-crosshairs"></i> Moja Lokalizacja</button>
+                <button onclick="getUserLocation()"><i class="fas fa-crosshairs"></i><span data-i18n="map.locate"> Moja Lokalizacja</span></button>
             </div>
             <div id="map"></div>
         </div>
@@ -119,10 +131,10 @@
     <section class="stats" id="stats">
         <div class="container">
             <div class="stats-grid">
-                <div class="stat-card"><div class="stat-number">89K+</div><div class="stat-label">Pojazdów elektrycznych w Polsce</div></div>
-                <div class="stat-card"><div class="stat-number">95%</div><div class="stat-label">Ładowarek prywatnych niewykorzystanych</div></div>
-                <div class="stat-card"><div class="stat-number">30%</div><div class="stat-label">Taniej niż publiczne ładowanie</div></div>
-                <div class="stat-card"><div class="stat-number">540 PLN</div><div class="stat-label">Średni miesięczny przychód gospodarza</div></div>
+                <div class="stat-card"><div class="stat-number">89K+</div><div class="stat-label" data-i18n="stat1">Pojazdów elektrycznych w Polsce</div></div>
+                <div class="stat-card"><div class="stat-number">95%</div><div class="stat-label" data-i18n="stat2">Ładowarek prywatnych niewykorzystanych</div></div>
+                <div class="stat-card"><div class="stat-number">30%</div><div class="stat-label" data-i18n="stat3">Taniej niż publiczne ładowanie</div></div>
+                <div class="stat-card"><div class="stat-number">540 PLN</div><div class="stat-label" data-i18n="stat4">Średni miesięczny przychód gospodarza</div></div>
             </div>
         </div>
     </section>
@@ -130,29 +142,29 @@
     <section class="pre-registration" id="join">
         <div class="container">
             <div class="pre-reg-content">
-                <h2>Dołącz do Beta!</h2>
-                <p>Bądź wśród pierwszych użytkowników EVarka</p>
+                <h2 data-i18n="join.title">Dołącz do Beta!</h2>
+                <p data-i18n="join.sub">Bądź wśród pierwszych użytkowników EVarka</p>
                 <form class="registration-form" id="customForm"
                       action="https://docs.google.com/forms/d/e/1FAIpQLScRiT0Zym7KRjgzUGe7FNRjn4AhZIECZ0HBck9V2IlgAeWp-w/formResponse"
                       method="POST" target="hidden_iframe" onsubmit="handleFormSubmit()">
                     <div class="form-group">
-                        <label for="email"><i class="fas fa-envelope"></i> Adres Email</label>
-                        <input type="email" name="entry.900723696" id="email" required placeholder="twoj@email.pl" autocomplete="email">
+                        <label for="email"><i class="fas fa-envelope"></i> <span data-i18n="form.email">Adres Email</span></label>
+                        <input type="email" name="entry.900723696" id="email" required placeholder="twoj@email.pl" data-i18n-placeholder="form.emailPlaceholder" autocomplete="email">
                     </div>
                     <div class="form-group">
-                        <label for="role"><i class="fas fa-user-tag"></i> Jestem...</label>
+                        <label for="role"><i class="fas fa-user-tag"></i> <span data-i18n="form.role">Jestem...</span></label>
                         <select name="entry.2040123220" id="role" required autocomplete="off">
-                            <option value="">Wybierz rolę</option>
-                            <option value="Gospodarz">🏠 Gospodarz (mam ładowarkę)</option>
-                            <option value="Użytkownik">🔌 Użytkownik (szukam ładowania)</option>
-                            <option value="Oboje">⚡ Oboje</option>
+                            <option value="" data-i18n="form.select">Wybierz rolę</option>
+                            <option value="Gospodarz" data-i18n="form.host">🏠 Gospodarz (mam ładowarkę)</option>
+                            <option value="Użytkownik" data-i18n="form.user">🔌 Użytkownik (szukam ładowania)</option>
+                            <option value="Oboje" data-i18n="form.both">⚡ Oboje</option>
                         </select>
                     </div>
                     <div class="form-group">
-                        <label for="city"><i class="fas fa-map-marker-alt"></i> Miasto</label>
-                        <input type="text" name="entry.1860861843" id="city" required placeholder="np. Warszawa" autocomplete="address-level2">
+                        <label for="city"><i class="fas fa-map-marker-alt"></i> <span data-i18n="form.city">Miasto</span></label>
+                        <input type="text" name="entry.1860861843" id="city" required placeholder="np. Warszawa" data-i18n-placeholder="form.cityPlaceholder" autocomplete="address-level2">
                     </div>
-                    <button type="submit" class="form-submit"><i class="fas fa-rocket"></i> Zapisz się na Beta</button>
+                    <button type="submit" class="form-submit"><i class="fas fa-rocket"></i><span data-i18n="form.submit"> Zapisz się na Beta</span></button>
                 </form>
                 <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;"></iframe>
             </div>
@@ -171,23 +183,103 @@
                             <span style="color:var(--secondary);">EV</span><span style="color:white;">arka</span>
                         </span>
                     </h3>
-                    <p>Rewolucja w ładowaniu pojazdów elektrycznych w Polsce</p>
+                    <p data-i18n="footer.tagline">Rewolucja w ładowaniu pojazdów elektrycznych w Polsce</p>
                 </div>
                 <div class="footer-section">
-                    <h3>Kontakt</h3>
+                    <h3 data-i18n="footer.contact">Kontakt</h3>
                     <p><i class="fas fa-envelope"></i> <a href="mailto:vincent@evarka.com" style="color:rgba(255,255,255,0.8);text-decoration:none;">vincent@evarka.com</a></p>
-                    <p>Zgodne z regulacjami URE</p>
+                    <p data-i18n="footer.compliance">Zgodne z regulacjami URE</p>
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>&copy; 2026 EVarka. Wszelkie prawa zastrzeżone.</p>
+                <p>&copy; 2026 EVarka. <span data-i18n="footer.rights">Wszelkie prawa zastrzeżone.</span></p>
             </div>
         </div>
     </footer>
 
-    <!-- Google Analytics 4 — NO Cloudflare scripts -->
+    <!-- Google Analytics 4 -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-0NZQKXH851"></script>
     <script>
+        // ── i18n ──────────────────────────────────────────────────────────────
+        const i18n = {
+            pl: {
+                'nav.map': 'Mapa', 'nav.stats': 'Statystyki', 'nav.join': 'Dołącz',
+                'hero.title': 'Podziel się ładowarką EV i zarabiaj!',
+                'hero.sub': 'Airbnb ładowania elektrycznego w Polsce. Znajdź ładowarki w całym kraju.',
+                'hero.cta1': ' Zostań Gospodarzem', 'hero.cta2': ' Przeglądaj Mapę',
+                'map.title': 'Znajdź Ładowarki w Twojej Okolicy',
+                'map.locate': ' Moja Lokalizacja',
+                'stat1': 'Pojazdów elektrycznych w Polsce',
+                'stat2': 'Ładowarek prywatnych niewykorzystanych',
+                'stat3': 'Taniej niż publiczne ładowanie',
+                'stat4': 'Średni miesięczny przychód gospodarza',
+                'join.title': 'Dołącz do Beta!', 'join.sub': 'Bądź wśród pierwszych użytkowników EVarka',
+                'form.email': 'Adres Email', 'form.role': 'Jestem...', 'form.city': 'Miasto',
+                'form.select': 'Wybierz rolę',
+                'form.host': '🏠 Gospodarz (mam ładowarkę)',
+                'form.user': '🔌 Użytkownik (szukam ładowania)',
+                'form.both': '⚡ Oboje',
+                'form.submit': ' Zapisz się na Beta',
+                'form.emailPlaceholder': 'twoj@email.pl',
+                'form.cityPlaceholder': 'np. Warszawa',
+                'footer.tagline': 'Rewolucja w ładowaniu pojazdów elektrycznych w Polsce',
+                'footer.contact': 'Kontakt', 'footer.compliance': 'Zgodne z regulacjami URE',
+                'footer.rights': 'Wszelkie prawa zastrzeżone.'
+            },
+            en: {
+                'nav.map': 'Map', 'nav.stats': 'Stats', 'nav.join': 'Join',
+                'hero.title': 'Share your EV charger and earn!',
+                'hero.sub': 'The Airbnb of EV charging in Poland. Find chargers across the country.',
+                'hero.cta1': ' Become a Host', 'hero.cta2': ' Browse Map',
+                'map.title': 'Find Chargers Near You',
+                'map.locate': ' My Location',
+                'stat1': 'Electric vehicles in Poland',
+                'stat2': 'Private chargers sitting idle',
+                'stat3': 'Cheaper than public charging',
+                'stat4': 'Average monthly host earnings',
+                'join.title': 'Join the Beta!', 'join.sub': 'Be among the first EVarka users',
+                'form.email': 'Email Address', 'form.role': 'I am...', 'form.city': 'City',
+                'form.select': 'Select role',
+                'form.host': '🏠 Host (I have a charger)',
+                'form.user': '🔌 User (I need charging)',
+                'form.both': '⚡ Both',
+                'form.submit': ' Sign up for Beta',
+                'form.emailPlaceholder': 'your@email.com',
+                'form.cityPlaceholder': 'e.g. Warsaw',
+                'footer.tagline': 'Revolutionising EV charging in Poland',
+                'footer.contact': 'Contact', 'footer.compliance': 'Compliant with URE regulations',
+                'footer.rights': 'All rights reserved.'
+            }
+        };
+        let currentLang = localStorage.getItem('evarka_lang') || 'pl';
+        if (!['pl', 'en'].includes(currentLang)) currentLang = 'pl';
+
+        function applyLanguage(lang) {
+            currentLang = ['pl', 'en'].includes(lang) ? lang : 'pl';
+            const t = i18n[currentLang];
+            document.querySelector('.lang-toggle').textContent = currentLang === 'pl' ? 'EN' : 'PL';
+            document.documentElement.lang = currentLang;
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (t[key] !== undefined) el.textContent = t[key];
+            });
+            document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+                const key = el.getAttribute('data-i18n-placeholder');
+                if (t[key] !== undefined) el.setAttribute('placeholder', t[key]);
+            });
+        }
+
+        function toggleLanguage() {
+            applyLanguage(currentLang === 'pl' ? 'en' : 'pl');
+            localStorage.setItem('evarka_lang', currentLang);
+        }
+
+        // Apply saved language preference on page load
+        (function() {
+            applyLanguage(currentLang);
+        })();
+
+        // ── Map ───────────────────────────────────────────────────────────────
         let map, markers = [];
         const demoChargers = [
             { lat: 52.2297, lng: 21.0122, name: "Warszawa - Centrum", price: "1.50 PLN/kWh", power: "22 kW" },
@@ -234,12 +326,15 @@
             setTimeout(() => { alert('🎉 Dziękujemy! Zapisaliśmy Cię na listę beta EVarka!'); document.getElementById('customForm').reset(); }, 1000);
             return true;
         }
+
+        // ── Analytics ─────────────────────────────────────────────────────────
         window.dataLayer = window.dataLayer || [];
         function gtag(){dataLayer.push(arguments);}
         gtag('js', new Date()); gtag('config', 'G-0NZQKXH851');
         document.querySelectorAll('.btn-primary,.btn-secondary').forEach(btn => btn.addEventListener('click', function() { gtag('event','cta_click',{button_text:this.textContent.trim()}); }));
         document.getElementById('customForm')?.addEventListener('submit', () => gtag('event','form_submit',{form_type:'beta_registration'}));
-        function toggleLanguage() { alert('Fonction multilingue à implémenter avec i18n'); }
+
+        // ── Smooth scroll ─────────────────────────────────────────────────────
         document.querySelectorAll('a[href^="#"]').forEach(a => a.addEventListener('click', function(e) { e.preventDefault(); document.querySelector(this.getAttribute('href'))?.scrollIntoView({behavior:'smooth'}); }));
     </script>
 </body>
