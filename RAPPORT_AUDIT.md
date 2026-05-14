@@ -25,7 +25,7 @@ La fonction de changement de langue renvoyait un simple `alert()`.
 | GA4 intégré | Suivi des événements CTA et formulaire |
 | Formulaire pré-inscription | Intégration Google Forms — pas de backend requis |
 | Favicon SVG inline | Pas de dépendance externe pour l'icône |
-| CNAME + README | Déploiement propre |
+| CNAME | Déploiement propre |
 
 ---
 
@@ -231,17 +231,61 @@ Ouvrir `index.html` dans un navigateur. Aucun build requis.
 
 **Pourquoi :** Réduire le risque XSS via les CDN externes.
 
-**Durée estimée :** 20 min
+**Durée estimée :** 30 min
 
-**Option simple — fichier `_headers` (si déployé sur Netlify) ou via GitHub Pages :**
+> **⚠️ Important — ne jamais utiliser `'unsafe-inline'` dans `script-src`** : cela
+> annule entièrement la protection XSS que CSP est censée apporter. Les scripts
+> inline doivent être autorisés via des **nonces** ou des **hashes**, jamais via
+> `'unsafe-inline'`. De même, évitez `*` ou les domaines externes non nécessaires
+> dans vos directives.
 
-GitHub Pages ne supporte pas les headers personnalisés directement. Options :
-- Migrer vers Netlify (recommandé pour une landing page de startup) et ajouter un fichier `netlify.toml`
-- Ou ajouter une balise meta minimale :
-  ```html
-  <meta http-equiv="Content-Security-Policy"
-        content="default-src 'self' https://maps.googleapis.com https://maps.gstatic.com https://www.googletagmanager.com https://fonts.googleapis.com https://cdnjs.cloudflare.com https://images.unsplash.com; script-src 'self' 'unsafe-inline' https://maps.googleapis.com https://www.googletagmanager.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com;">
-  ```
+**Étape préalable — externaliser le JS inline :**
+
+Le JS de `index.html` est actuellement dans un bloc `<script>` embarqué. Pour
+activer une CSP stricte, déplacez-le dans `app.js` externe :
+```html
+<script src="app.js" defer></script>
+```
+
+**Configuration CSP stricte avec nonce (si backend disponible) :**
+
+Générer un token aléatoire côté serveur à chaque requête et l'injecter :
+```html
+<meta http-equiv="Content-Security-Policy"
+      content="default-src 'self';
+               script-src 'self' 'nonce-RANDOM_PER_REQUEST' https://maps.googleapis.com https://www.googletagmanager.com;
+               style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com;
+               img-src 'self' https://images.unsplash.com data:;
+               font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com;
+               connect-src 'self' https://www.google-analytics.com;">
+```
+
+Ajouter l'attribut `nonce` sur chaque `<script>` :
+```html
+<script nonce="RANDOM_PER_REQUEST" src="app.js"></script>
+```
+
+**Alternative pour site 100 % statique — hashes SHA-256 :**
+
+1. Calculer le hash du contenu de chaque script inline :
+   ```bash
+   echo -n 'contenu du script' | openssl dgst -sha256 -binary | base64
+   ```
+2. Ajouter le hash à `script-src` : `'sha256-xxxx...'`
+
+**Option Netlify (recommandée — headers HTTP réels) :**
+
+Migrer vers Netlify et ajouter un fichier `netlify.toml` :
+```toml
+[[headers]]
+  for = "/*"
+  [headers.values]
+    Content-Security-Policy = "default-src 'self'; script-src 'self' https://maps.googleapis.com https://www.googletagmanager.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; img-src 'self' https://images.unsplash.com data:; font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com"
+```
+
+Note : `style-src 'unsafe-inline'` reste nécessaire pour les styles inline des
+info-bulles Google Maps — acceptable pour une landing page statique où le risque
+d'injection CSS est faible.
 
 ---
 
@@ -254,7 +298,7 @@ GitHub Pages ne supporte pas les headers personnalisés directement. Options :
 | P2 | Héberger l'image hero en local | 5 min |
 | P3 | Séparer CSS dans `style.css` | 30 min |
 | P4 | Remplacer les données de démo par une API ou un JSON | selon architecture |
-| P5 | Ajouter une CSP (migrer Netlify pour headers HTTP) | 1h |
+| P5 | Ajouter une CSP (migrer Netlify + externaliser JS) | 2h |
 
 ---
 
