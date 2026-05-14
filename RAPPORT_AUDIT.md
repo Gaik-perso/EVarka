@@ -8,11 +8,11 @@
 
 Landing page statique déployée via GitHub Pages sur `evarka.com`.
 Design professionnel, responsive, avec carte Google Maps, formulaire
-pré-inscription Google Forms et GA4. Le problème critique était une
-clé API Google Maps non restreinte exposée publiquement dans le HTML.
-La fonction de changement de langue renvoyait un simple `alert()`.
+pré-inscription Google Forms et GA4. Le problème critique (clé API Google Maps
+non restreinte) a été résolu. La fonction de changement de langue a été
+entièrement réimplémentée (PL/EN i18n complète).
 
-**Score global : 6 / 10**
+**Score global : 7 / 10** *(anciennement 6/10 — clé Maps restreinte ✅)*
 
 ---
 
@@ -31,31 +31,28 @@ La fonction de changement de langue renvoyait un simple `alert()`.
 
 ## Problèmes identifiés
 
-### CRITIQUE — Sécurité
+### ✅ RÉSOLU — Sécurité
 
 #### 1. Clé API Google Maps exposée sans restriction
 
-**Problème :** La clé `AIzaSyBO7fMvnB...91wYNuGk` est visible
-dans le code source HTML public. N'importe qui peut :
+**Problème initial :** La clé `AIzaSyBO7fMvnB...91wYNuGk` était visible
+dans le code source HTML public. N'importe qui pouvait :
 - L'utiliser pour des milliers de requêtes Maps **à vos frais**
 - L'utiliser dans ses propres projets
-- Déclencher des coûts qui atteignent votre quota mensuel
+- Déclencher des coûts atteignant votre quota mensuel
 
 **Note :** Il est inévitable qu'une clé Google Maps soit visible côté client
 dans une page statique. La solution n'est **pas** de la cacher (impossible),
 mais de la **restreindre à votre domaine uniquement**.
 
-**Correction appliquée dans ce PR :**
+**Correction appliquée dans le PR :**
 Ajout d'un commentaire HTML explicite dans `index.html` indiquant la procédure
 de restriction avec le lien direct vers Google Cloud Console.
 
-**Action manuelle URGENTE requise (voir ci-dessous) :**
-Restreindre la clé dans la console Google Cloud.
-
-Restricted key usage requests to the specified websites.
-https://evarka.com/*
-https://www.evarka.com/*
-
+**✅ Action manuelle effectuée — 14 mai 2026 :**
+Restriction appliquée dans Google Cloud Console :
+- Type : Websites
+- Référents autorisés : `https://evarka.com/*` et `https://www.evarka.com/*`
 
 > **Note :** Pour les projets disposant d'un backend, fournir la clé via une
 > variable d'environnement ou un gestionnaire de secrets (ex. GitHub Secrets,
@@ -74,7 +71,7 @@ function toggleLanguage() { alert('Fonction multilingue à implémenter avec i18
 ```
 Visible des utilisateurs qui cliquent sur le bouton "EN".
 
-**Correction appliquée dans ce PR :**
+**Correction appliquée dans le PR :**
 Implémentation complète PL/EN avec :
 - Objet `i18n` contenant les traductions pour les deux langues
 - Attributs `data-i18n` sur tous les éléments traduisibles
@@ -140,45 +137,10 @@ via les scripts tiers (Google Maps, GA4, Font Awesome, Google Fonts).
 
 ## Corrections manuelles requises
 
-### A. URGENT — Restreindre la clé Google Maps API
+### ~~A. URGENT — Restreindre la clé Google Maps API~~ ✅ FAIT — 14 mai 2026
 
-**Pourquoi :** Risque financier réel. Sans restriction, n'importe qui peut
-utiliser votre quota à votre place.
-
-**Durée estimée :** 5 minutes
-
-**Étapes détaillées :**
-
-1. Aller sur **Google Cloud Console** :
-   [https://console.cloud.google.com/apis/credentials](https://console.cloud.google.com/apis/credentials)
-
-2. Sélectionner le projet associé à la clé Maps utilisée en production (ex. `AIzaSyBO7fMvnB...91wYNuGk`)
-
-3. Cliquer sur la clé pour l'éditer
-
-4. Dans la section **"Restrictions d'application"**, sélectionner **"Référents HTTP (sites web)"**
-
-5. Dans **"Référents HTTP autorisés"**, ajouter :
-   ```text
-   https://evarka.com/*
-   https://www.evarka.com/*
-   ```
-   Si vous voulez aussi tester en local :
-   ```text
-   http://localhost:*/*
-   ```
-
-6. Dans la section **"Restrictions d'API"**, sélectionner **"Restreindre la clé"**
-   et cocher uniquement :
-   - Maps JavaScript API
-   - Places API (si utilisée)
-
-7. Cliquer **Enregistrer**
-
-8. Vérifier que la carte fonctionne encore sur `evarka.com`
-
-9. **Optionnel mais recommandé :** Activer les alertes de quota dans Google Cloud
-   pour être notifié si des requêtes anormales apparaissent.
+Restriction appliquée dans Google Cloud Console : référents HTTP limités à
+`evarka.com/*` et `www.evarka.com/*`. Risque financier éliminé.
 
 ---
 
@@ -298,7 +260,7 @@ d'injection CSS est faible.
 
 | Priorité | Tâche | Effort |
 |---|---|---|
-| **P0** | **Restreindre la clé Google Maps dans Cloud Console** | **5 min — URGENT** |
+| ~~**P0**~~ | ~~**Restreindre la clé Google Maps dans Cloud Console**~~ ✅ **FAIT — 14 mai 2026** | ~~**5 min — URGENT**~~ |
 | P1 | Mettre à jour README.md | 15 min |
 | P2 | Héberger l'image hero en local | 5 min |
 | P3 | Séparer CSS dans `style.css` | 30 min |
@@ -307,4 +269,4 @@ d'injection CSS est faible.
 
 ---
 
-*implémentation PL/EN i18n complète*
+*implémentation PL/EN i18n complète — clé Maps restreinte ✅*
