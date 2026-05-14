@@ -9,9 +9,14 @@
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='7' fill='url(%23g)'/><defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='1'><stop offset='0' stop-color='%230A8754'/><stop offset='1' stop-color='%2305B86D'/></linearGradient></defs><path d='M18 4L8 18h7l-1 10L25 14h-7.5L18 4Z' fill='white'/></svg>">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!--
+        SECURITY — Google Maps API Key
+        This key MUST be restricted in Google Cloud Console:
+        → Console: https://console.cloud.google.com/apis/credentials
+        → HTTP referrer restrictions: evarka.com/* only
+        Without restriction, anyone can use it at your expense.
+
         SECURITE — Clé API Google Maps
         Cette clé doit être restreinte dans Google Cloud Console :
-        → Console : https://console.cloud.google.com/apis/credentials
         → Restrictions HTTP referrer : evarka.com/* uniquement
         Sans restriction, n'importe qui peut l'utiliser à vos frais.
     -->
@@ -150,9 +155,9 @@
                         <label for="role"><i class="fas fa-user-tag"></i> <span data-i18n="form.role">Jestem...</span></label>
                         <select name="entry.2040123220" id="role" required autocomplete="off">
                             <option value="" data-i18n="form.select">Wybierz rolę</option>
-                            <option value="Gospodarz">🏠 <span data-i18n="form.host">Gospodarz (mam ładowarkę)</span></option>
-                            <option value="Użytkownik">🔌 <span data-i18n="form.user">Użytkownik (szukam ładowania)</span></option>
-                            <option value="Oboje">⚡ <span data-i18n="form.both">Oboje</span></option>
+                            <option value="Gospodarz" data-i18n="form.host">🏠 Gospodarz (mam ładowarkę)</option>
+                            <option value="Użytkownik" data-i18n="form.user">🔌 Użytkownik (szukam ładowania)</option>
+                            <option value="Oboje" data-i18n="form.both">⚡ Oboje</option>
                         </select>
                     </div>
                     <div class="form-group">
@@ -210,7 +215,11 @@
                 'stat4': 'Średni miesięczny przychód gospodarza',
                 'join.title': 'Dołącz do Beta!', 'join.sub': 'Bądź wśród pierwszych użytkowników EVarka',
                 'form.email': 'Adres Email', 'form.role': 'Jestem...', 'form.city': 'Miasto',
-                'form.select': 'Wybierz rolę', 'form.submit': ' Zapisz się na Beta',
+                'form.select': 'Wybierz rolę',
+                'form.host': '🏠 Gospodarz (mam ładowarkę)',
+                'form.user': '🔌 Użytkownik (szukam ładowania)',
+                'form.both': '⚡ Oboje',
+                'form.submit': ' Zapisz się na Beta',
                 'footer.tagline': 'Rewolucja w ładowaniu pojazdów elektrycznych w Polsce',
                 'footer.contact': 'Kontakt', 'footer.compliance': 'Zgodne z regulacjami URE',
                 'footer.rights': 'Wszelkie prawa zastrzeżone.'
@@ -228,16 +237,21 @@
                 'stat4': 'Average monthly host earnings',
                 'join.title': 'Join the Beta!', 'join.sub': 'Be among the first EVarka users',
                 'form.email': 'Email Address', 'form.role': 'I am...', 'form.city': 'City',
-                'form.select': 'Select role', 'form.submit': ' Sign up for Beta',
+                'form.select': 'Select role',
+                'form.host': '🏠 Host (I have a charger)',
+                'form.user': '🔌 User (I need charging)',
+                'form.both': '⚡ Both',
+                'form.submit': ' Sign up for Beta',
                 'footer.tagline': 'Revolutionising EV charging in Poland',
                 'footer.contact': 'Contact', 'footer.compliance': 'Compliant with URE regulations',
                 'footer.rights': 'All rights reserved.'
             }
         };
-        let currentLang = 'pl';
+        let currentLang = localStorage.getItem('evarka_lang') || 'pl';
 
         function toggleLanguage() {
             currentLang = currentLang === 'pl' ? 'en' : 'pl';
+            localStorage.setItem('evarka_lang', currentLang);
             const t = i18n[currentLang];
             document.querySelector('.lang-toggle').textContent = currentLang === 'pl' ? 'EN' : 'PL';
             document.documentElement.lang = currentLang;
@@ -246,6 +260,11 @@
                 if (t[key] !== undefined) el.textContent = t[key];
             });
         }
+
+        // Apply saved language preference on page load
+        (function() {
+            if (currentLang !== 'pl') toggleLanguage();
+        })();
 
         // ── Map ───────────────────────────────────────────────────────────────
         let map, markers = [];

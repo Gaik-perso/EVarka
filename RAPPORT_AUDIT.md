@@ -65,11 +65,12 @@ function toggleLanguage() { alert('Fonction multilingue à implémenter avec i18
 Visible des utilisateurs qui cliquent sur le bouton "EN".
 
 **Correction appliquée dans ce PR :**
-Implémentation complète FR/PL avec :
+Implémentation complète PL/EN avec :
 - Objet `i18n` contenant les traductions pour les deux langues
 - Attributs `data-i18n` sur tous les éléments traduisibles
 - Fonction `toggleLanguage()` qui parcourt les éléments et substitue les textes
 - Mise à jour de `document.documentElement.lang` pour l'accessibilité
+- Persistance via `localStorage` (clé `evarka_lang`)
 
 ---
 
@@ -121,7 +122,7 @@ via les scripts tiers (Google Maps, GA4, Font Awesome, Google Fonts).
 
 | Fichier | Action | Détail |
 |---|---|---|
-| `index.html` | **Modifié** | Commentaire sécurité avant la clé Maps + `data-i18n` sur les éléments traduisibles + `toggleLanguage()` implémentée (FR/PL) + `document.documentElement.lang` mis à jour |
+| `index.html` | **Modifié** | Commentaire sécurité bilingue avant la clé Maps + `data-i18n` sur les éléments traduisibles + `toggleLanguage()` implémentée (PL/EN) + `localStorage` persistence + `document.documentElement.lang` mis à jour |
 
 ---
 
@@ -146,12 +147,12 @@ utiliser votre quota à votre place.
 4. Dans la section **"Restrictions d'application"**, sélectionner **"Référents HTTP (sites web)"**
 
 5. Dans **"Référents HTTP autorisés"**, ajouter :
-   ```
+   ```text
    https://evarka.com/*
    https://www.evarka.com/*
    ```
    Si vous voulez aussi tester en local :
-   ```
+   ```text
    http://localhost:*/*
    ```
 
@@ -247,3 +248,7 @@ GitHub Pages ne supporte pas les headers personnalisés directement. Options :
 | P3 | Séparer CSS dans `style.css` | 30 min |
 | P4 | Remplacer les données de démo par une API ou un JSON | selon architecture |
 | P5 | Ajouter une CSP (migrer Netlify pour headers HTTP) | 1h |
+
+---
+
+*implémentation PL/EN i18n complète*
