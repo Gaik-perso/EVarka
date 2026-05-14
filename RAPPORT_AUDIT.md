@@ -52,6 +52,11 @@ de restriction avec le lien direct vers Google Cloud Console.
 **Action manuelle URGENTE requise (voir ci-dessous) :**
 Restreindre la clé dans la console Google Cloud.
 
+Restricted key usage requests to the specified websites.
+https://evarka.com/*
+https://www.evarka.com/*
+
+
 > **Note :** Pour les projets disposant d'un backend, fournir la clé via une
 > variable d'environnement ou un gestionnaire de secrets (ex. GitHub Secrets,
 > Google Secret Manager) plutôt qu'en clair dans le code source ou la
