@@ -35,7 +35,7 @@ La fonction de changement de langue renvoyait un simple `alert()`.
 
 #### 1. Clé API Google Maps exposée sans restriction
 
-**Problème :** La clé `AIzaSyBO7fMvnBTEDYHK6JPs-Z9UHmS91wYNuGk` est visible
+**Problème :** La clé `AIzaSyBO7fMvnB...91wYNuGk` est visible
 dans le code source HTML public. N'importe qui peut :
 - L'utiliser pour des milliers de requêtes Maps **à vos frais**
 - L'utiliser dans ses propres projets
@@ -51,6 +51,11 @@ de restriction avec le lien direct vers Google Cloud Console.
 
 **Action manuelle URGENTE requise (voir ci-dessous) :**
 Restreindre la clé dans la console Google Cloud.
+
+> **Note :** Pour les projets disposant d'un backend, fournir la clé via une
+> variable d'environnement ou un gestionnaire de secrets (ex. GitHub Secrets,
+> Google Secret Manager) plutôt qu'en clair dans le code source ou la
+> documentation versionnée.
 
 ---
 
@@ -68,9 +73,11 @@ Visible des utilisateurs qui cliquent sur le bouton "EN".
 Implémentation complète PL/EN avec :
 - Objet `i18n` contenant les traductions pour les deux langues
 - Attributs `data-i18n` sur tous les éléments traduisibles
-- Fonction `toggleLanguage()` qui parcourt les éléments et substitue les textes
+- `data-i18n-placeholder` sur les champs `email` et `city` pour traduire les placeholders
+- Fonction `applyLanguage(lang)` pour appliquer une langue sans effet de bord
+- Fonction `toggleLanguage()` qui délègue à `applyLanguage()` et persiste dans `localStorage`
 - Mise à jour de `document.documentElement.lang` pour l'accessibilité
-- Persistance via `localStorage` (clé `evarka_lang`)
+- Persistance via `localStorage` (clé `evarka_lang`) avec validation de la valeur stockée
 
 ---
 
@@ -122,7 +129,7 @@ via les scripts tiers (Google Maps, GA4, Font Awesome, Google Fonts).
 
 | Fichier | Action | Détail |
 |---|---|---|
-| `index.html` | **Modifié** | Commentaire sécurité bilingue avant la clé Maps + `data-i18n` sur les éléments traduisibles + `toggleLanguage()` implémentée (PL/EN) + `localStorage` persistence + `document.documentElement.lang` mis à jour |
+| `index.html` | **Modifié** | Commentaire sécurité bilingue avant la clé Maps + `data-i18n` sur les éléments traduisibles + `data-i18n-placeholder` sur les inputs + `applyLanguage()` helper + `toggleLanguage()` implémentée (PL/EN) + `localStorage` persistence + `document.documentElement.lang` mis à jour |
 
 ---
 
@@ -140,7 +147,7 @@ utiliser votre quota à votre place.
 1. Aller sur **Google Cloud Console** :
    [https://console.cloud.google.com/apis/credentials](https://console.cloud.google.com/apis/credentials)
 
-2. Sélectionner le projet associé à la clé `AIzaSyBO7fMvnBTEDYHK6JPs-Z9UHmS91wYNuGk`
+2. Sélectionner le projet associé à la clé Maps utilisée en production (ex. `AIzaSyBO7fMvnB...91wYNuGk`)
 
 3. Cliquer sur la clé pour l'éditer
 

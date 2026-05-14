@@ -149,7 +149,7 @@
                       method="POST" target="hidden_iframe" onsubmit="handleFormSubmit()">
                     <div class="form-group">
                         <label for="email"><i class="fas fa-envelope"></i> <span data-i18n="form.email">Adres Email</span></label>
-                        <input type="email" name="entry.900723696" id="email" required placeholder="twoj@email.pl" autocomplete="email">
+                        <input type="email" name="entry.900723696" id="email" required placeholder="twoj@email.pl" data-i18n-placeholder="form.emailPlaceholder" autocomplete="email">
                     </div>
                     <div class="form-group">
                         <label for="role"><i class="fas fa-user-tag"></i> <span data-i18n="form.role">Jestem...</span></label>
@@ -162,7 +162,7 @@
                     </div>
                     <div class="form-group">
                         <label for="city"><i class="fas fa-map-marker-alt"></i> <span data-i18n="form.city">Miasto</span></label>
-                        <input type="text" name="entry.1860861843" id="city" required placeholder="np. Warszawa" autocomplete="address-level2">
+                        <input type="text" name="entry.1860861843" id="city" required placeholder="np. Warszawa" data-i18n-placeholder="form.cityPlaceholder" autocomplete="address-level2">
                     </div>
                     <button type="submit" class="form-submit"><i class="fas fa-rocket"></i><span data-i18n="form.submit"> Zapisz się na Beta</span></button>
                 </form>
@@ -220,6 +220,8 @@
                 'form.user': '🔌 Użytkownik (szukam ładowania)',
                 'form.both': '⚡ Oboje',
                 'form.submit': ' Zapisz się na Beta',
+                'form.emailPlaceholder': 'twoj@email.pl',
+                'form.cityPlaceholder': 'np. Warszawa',
                 'footer.tagline': 'Rewolucja w ładowaniu pojazdów elektrycznych w Polsce',
                 'footer.contact': 'Kontakt', 'footer.compliance': 'Zgodne z regulacjami URE',
                 'footer.rights': 'Wszelkie prawa zastrzeżone.'
@@ -242,16 +244,18 @@
                 'form.user': '🔌 User (I need charging)',
                 'form.both': '⚡ Both',
                 'form.submit': ' Sign up for Beta',
+                'form.emailPlaceholder': 'your@email.com',
+                'form.cityPlaceholder': 'e.g. Warsaw',
                 'footer.tagline': 'Revolutionising EV charging in Poland',
                 'footer.contact': 'Contact', 'footer.compliance': 'Compliant with URE regulations',
                 'footer.rights': 'All rights reserved.'
             }
         };
         let currentLang = localStorage.getItem('evarka_lang') || 'pl';
+        if (!['pl', 'en'].includes(currentLang)) currentLang = 'pl';
 
-        function toggleLanguage() {
-            currentLang = currentLang === 'pl' ? 'en' : 'pl';
-            localStorage.setItem('evarka_lang', currentLang);
+        function applyLanguage(lang) {
+            currentLang = ['pl', 'en'].includes(lang) ? lang : 'pl';
             const t = i18n[currentLang];
             document.querySelector('.lang-toggle').textContent = currentLang === 'pl' ? 'EN' : 'PL';
             document.documentElement.lang = currentLang;
@@ -259,11 +263,20 @@
                 const key = el.getAttribute('data-i18n');
                 if (t[key] !== undefined) el.textContent = t[key];
             });
+            document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+                const key = el.getAttribute('data-i18n-placeholder');
+                if (t[key] !== undefined) el.setAttribute('placeholder', t[key]);
+            });
+        }
+
+        function toggleLanguage() {
+            applyLanguage(currentLang === 'pl' ? 'en' : 'pl');
+            localStorage.setItem('evarka_lang', currentLang);
         }
 
         // Apply saved language preference on page load
         (function() {
-            if (currentLang !== 'pl') toggleLanguage();
+            applyLanguage(currentLang);
         })();
 
         // ── Map ───────────────────────────────────────────────────────────────
