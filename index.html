@@ -54,10 +54,14 @@
         .map-controls button{background:var(--gradient);color:white;border:none;padding:1rem 2rem;border-radius:50px;font-weight:600;cursor:pointer;margin:0 0.5rem;transition:transform 0.3s}
         .map-controls button:hover{transform:scale(1.05)}
         .stats{padding:5rem 0}
-        .stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:2rem;text-align:center}
-        .stat-card{background:white;padding:2rem;border-radius:15px;box-shadow:0 10px 30px rgba(0,0,0,0.1)}
-        .stat-number{font-size:3rem;font-weight:800;background:var(--gradient);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
-        .stat-label{color:var(--gray);font-weight:600}
+        .stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1.5rem;text-align:center}
+        @media(max-width:900px){.stats-grid{grid-template-columns:repeat(2,1fr)}}
+        @media(max-width:480px){.stats-grid{grid-template-columns:1fr}}
+        .stat-card{background:white;padding:2rem 1.5rem;border-radius:15px;box-shadow:0 10px 30px rgba(0,0,0,0.1);display:flex;flex-direction:column;align-items:center;gap:0.75rem}
+        .stat-icon{width:48px;height:48px;border-radius:12px;background:var(--gradient);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+        .stat-icon svg{width:26px;height:26px}
+        .stat-number{font-size:2.6rem;font-weight:800;background:var(--gradient);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;line-height:1.1}
+        .stat-label{color:var(--gray);font-weight:600;font-size:0.92rem;line-height:1.4}
         .pre-registration{padding:5rem 0;background:var(--gradient);color:white}
         .pre-reg-content{max-width:700px;margin:0 auto;text-align:center}
         .pre-reg-content h2{font-size:2.5rem;margin-bottom:1rem}
@@ -131,12 +135,11 @@
     <section class="stats" id="stats">
         <div class="container">
             <div class="stats-grid">
-                <!-- 🟡 89K+ : donnée BEV juin 2025 — à actualiser 2026 (Phase C) -->
-                <div class="stat-card"><div class="stat-number">89K+</div><div class="stat-label" data-i18n="stat1">Pojazdów elektrycznych w Polsce</div></div>
-                <div class="stat-card"><div class="stat-number">95%</div><div class="stat-label" data-i18n="stat2">Ładowarek prywatnych niewykorzystanych</div></div>
-                <div class="stat-card"><div class="stat-number">30%</div><div class="stat-label" data-i18n="stat3">Taniej niż publiczne ładowanie</div></div>
-                <div class="stat-card"><div class="stat-number">150–800 PLN</div><div class="stat-label" data-i18n="stat4">Miesięczny przychód gospodarza (do 780 PLN w modelu FLAT)</div></div>
-                <div class="stat-card"><div class="stat-number" style="-webkit-text-fill-color:initial;background:none;">🔋</div><div class="stat-label" data-i18n="stat5">Ładowanie bez stresu dla baterii — dłuższa żywotność</div></div>
+                <!-- 🟡 89K+ BEV : donnée juin 2025, à actualiser Phase C -->
+                <div class="stat-card"><div class="stat-icon"><svg viewBox="0 0 24 24" fill="none"><path d="M13 2L4.5 13.5H11L10 22L20 10H13.5L13 2Z" fill="white"/></svg></div><div class="stat-number">30%</div><div class="stat-label" data-i18n="stat3">Taniej niż publiczne ładowanie</div></div>
+                <div class="stat-card"><div class="stat-icon"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="white" stroke-width="2"/><path d="M12 7v1m0 8v1M9.5 9.5C9.5 8.4 10.6 7.5 12 7.5s2.5.9 2.5 2-.9 1.7-2.5 2c-1.6.3-2.5 1.1-2.5 2.2 0 1.1 1.1 2 2.5 2s2.5-.9 2.5-2" stroke="white" stroke-width="1.8" stroke-linecap="round"/></svg></div><div class="stat-number">800 PLN</div><div class="stat-label" data-i18n="stat4">Nawet tyle możesz zarabiać miesięcznie jako gospodarz</div></div>
+                <div class="stat-card"><div class="stat-icon"><svg viewBox="0 0 24 24" fill="none"><rect x="2" y="7" width="18" height="11" rx="2" stroke="white" stroke-width="2"/><path d="M20 10.5h2v4h-2" stroke="white" stroke-width="2" stroke-linecap="round"/><path d="M7 12.5l3-4-1 3h3l-3 4 1-3H7Z" fill="white"/></svg></div><div class="stat-number" style="-webkit-text-fill-color:var(--primary);background:none;">AC</div><div class="stat-label" data-i18n="stat5">Ładowanie bez stresu dla baterii, dłuższa żywotność</div></div>
+                <div class="stat-card"><div class="stat-icon"><svg viewBox="0 0 24 24" fill="none"><path d="M12 2v4M8 2v4M7 6h10a2 2 0 012 2v2a6 6 0 01-12 0V8a2 2 0 012-2zM12 16v6" stroke="white" stroke-width="2" stroke-linecap="round"/></svg></div><div class="stat-number">95%</div><div class="stat-label" data-i18n="stat2">Prywatnych ładowarek czeka na Ciebie</div></div>
             </div>
         </div>
     </section>
@@ -212,10 +215,10 @@
                 'map.title': 'Znajdź Ładowarki w Twojej Okolicy',
                 'map.locate': ' Moja Lokalizacja',
                 'stat1': 'Pojazdów elektrycznych w Polsce',
-                'stat2': 'Ładowarek prywatnych niewykorzystanych',
+                'stat2': 'Prywatnych ładowarek czeka na Ciebie',
                 'stat3': 'Taniej niż publiczne ładowanie',
-                'stat4': 'Miesięczny przychód gospodarza (do 780 PLN w modelu FLAT)',
-                'stat5': 'Ładowanie bez stresu dla baterii — dłuższa żywotność',
+                'stat4': 'Nawet tyle możesz zarabiać miesięcznie jako gospodarz',
+                'stat5': 'Ładowanie bez stresu dla baterii, dłuższa żywotność',
                 'join.title': 'Dołącz do Beta!', 'join.sub': 'Bądź wśród pierwszych użytkowników EVarka',
                 'form.email': 'Adres Email', 'form.role': 'Jestem...', 'form.city': 'Miasto',
                 'form.select': 'Wybierz rolę',
@@ -237,10 +240,10 @@
                 'map.title': 'Find Chargers Near You',
                 'map.locate': ' My Location',
                 'stat1': 'Electric vehicles in Poland',
-                'stat2': 'Private chargers sitting idle',
+                'stat2': 'Private chargers waiting for you',
                 'stat3': 'Cheaper than public charging',
-                'stat4': 'Monthly host earnings (up to 780 PLN, FLAT model)',
-                'stat5': 'Stress-free charging — a longer-lasting battery',
+                'stat4': 'Up to 800 PLN/month as a host',
+                'stat5': 'AC charging, stress-free for your battery',
                 'join.title': 'Join the Beta!', 'join.sub': 'Be among the first EVarka users',
                 'form.email': 'Email Address', 'form.role': 'I am...', 'form.city': 'City',
                 'form.select': 'Select role',
