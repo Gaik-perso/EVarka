@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Evarka - P2P EV Charging w Polsce</title>
-    <meta name="description" content="Evarka - platforma P2P do ładowania pojazdów elektrycznych. Airbnb ładowania elektrycznego w Polsce.">
+    <meta name="description" content="Evarka – ładowanie EV przy okazji: ładuj samochód tam, gdzie już jesteś (hotel, klub sportowy, biuro). Pierwsza platforma P2P ładowania EV w Polsce.">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=Syne:wght@800&display=swap" rel="stylesheet">
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='7' fill='url(%23g)'/><defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='1'><stop offset='0' stop-color='%230A8754'/><stop offset='1' stop-color='%2305B86D'/></linearGradient></defs><path d='M18 4L8 18h7l-1 10L25 14h-7.5L18 4Z' fill='white'/></svg>">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -101,8 +101,8 @@
         <div class="container">
             <div class="hero-content">
                 <div class="hero-text">
-                    <h1 data-i18n="hero.title">Podziel się ładowarką EV i zarabiaj!</h1>
-                    <p data-i18n="hero.sub">Airbnb ładowania elektrycznego w Polsce. Znajdź ładowarki w całym kraju.</p>
+                    <h1 data-i18n="hero.title">Każde miejsce to Twoja ładowarka</h1>
+                    <p data-i18n="hero.sub">Ładuj samochód tam, gdzie i tak jesteś — w hotelu, klubie sportowym czy biurze. Pierwsza platforma P2P ładowania EV w Polsce.</p>
                     <div class="cta-buttons">
                         <a href="#join" class="btn btn-primary"><i class="fas fa-user-plus"></i><span data-i18n="hero.cta1"> Zostań Gospodarzem</span></a>
                         <a href="#map-section" class="btn btn-secondary"><i class="fas fa-map-marked-alt"></i><span data-i18n="hero.cta2"> Przeglądaj Mapę</span></a>
@@ -131,10 +131,12 @@
     <section class="stats" id="stats">
         <div class="container">
             <div class="stats-grid">
+                <!-- 🟡 89K+ : donnée BEV juin 2025 — à actualiser 2026 (Phase C) -->
                 <div class="stat-card"><div class="stat-number">89K+</div><div class="stat-label" data-i18n="stat1">Pojazdów elektrycznych w Polsce</div></div>
                 <div class="stat-card"><div class="stat-number">95%</div><div class="stat-label" data-i18n="stat2">Ładowarek prywatnych niewykorzystanych</div></div>
                 <div class="stat-card"><div class="stat-number">30%</div><div class="stat-label" data-i18n="stat3">Taniej niż publiczne ładowanie</div></div>
-                <div class="stat-card"><div class="stat-number">540 PLN</div><div class="stat-label" data-i18n="stat4">Średni miesięczny przychód gospodarza</div></div>
+                <div class="stat-card"><div class="stat-number">150–800 PLN</div><div class="stat-label" data-i18n="stat4">Miesięczny przychód gospodarza (do 780 PLN w modelu FLAT)</div></div>
+                <div class="stat-card"><div class="stat-number" style="-webkit-text-fill-color:initial;background:none;">🔋</div><div class="stat-label" data-i18n="stat5">Ładowanie bez stresu dla baterii — dłuższa żywotność</div></div>
             </div>
         </div>
     </section>
@@ -204,15 +206,16 @@
         const i18n = {
             pl: {
                 'nav.map': 'Mapa', 'nav.stats': 'Statystyki', 'nav.join': 'Dołącz',
-                'hero.title': 'Podziel się ładowarką EV i zarabiaj!',
-                'hero.sub': 'Airbnb ładowania elektrycznego w Polsce. Znajdź ładowarki w całym kraju.',
+                'hero.title': 'Każde miejsce to Twoja ładowarka',
+                'hero.sub': 'Ładuj samochód tam, gdzie i tak jesteś — w hotelu, klubie sportowym czy biurze. Pierwsza platforma P2P ładowania EV w Polsce.',
                 'hero.cta1': ' Zostań Gospodarzem', 'hero.cta2': ' Przeglądaj Mapę',
                 'map.title': 'Znajdź Ładowarki w Twojej Okolicy',
                 'map.locate': ' Moja Lokalizacja',
                 'stat1': 'Pojazdów elektrycznych w Polsce',
                 'stat2': 'Ładowarek prywatnych niewykorzystanych',
                 'stat3': 'Taniej niż publiczne ładowanie',
-                'stat4': 'Średni miesięczny przychód gospodarza',
+                'stat4': 'Miesięczny przychód gospodarza (do 780 PLN w modelu FLAT)',
+                'stat5': 'Ładowanie bez stresu dla baterii — dłuższa żywotność',
                 'join.title': 'Dołącz do Beta!', 'join.sub': 'Bądź wśród pierwszych użytkowników EVarka',
                 'form.email': 'Adres Email', 'form.role': 'Jestem...', 'form.city': 'Miasto',
                 'form.select': 'Wybierz rolę',
@@ -228,15 +231,16 @@
             },
             en: {
                 'nav.map': 'Map', 'nav.stats': 'Stats', 'nav.join': 'Join',
-                'hero.title': 'Share your EV charger and earn!',
-                'hero.sub': 'The Airbnb of EV charging in Poland. Find chargers across the country.',
+                'hero.title': 'Every place is your charging point',
+                'hero.sub': 'Charge your car where you already are — at the hotel, the gym, the office. Poland\'s first P2P EV charging platform.',
                 'hero.cta1': ' Become a Host', 'hero.cta2': ' Browse Map',
                 'map.title': 'Find Chargers Near You',
                 'map.locate': ' My Location',
                 'stat1': 'Electric vehicles in Poland',
                 'stat2': 'Private chargers sitting idle',
                 'stat3': 'Cheaper than public charging',
-                'stat4': 'Average monthly host earnings',
+                'stat4': 'Monthly host earnings (up to 780 PLN, FLAT model)',
+                'stat5': 'Stress-free charging — a longer-lasting battery',
                 'join.title': 'Join the Beta!', 'join.sub': 'Be among the first EVarka users',
                 'form.email': 'Email Address', 'form.role': 'I am...', 'form.city': 'City',
                 'form.select': 'Select role',
