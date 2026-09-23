@@ -87,6 +87,46 @@ footer{text-align:center;font-size:12px;color:var(--muted)}
 .k-phone .sep{opacity:.6}
 .wa-ic{width:15px;height:15px;color:#25D366;flex:none}
 button.copy{min-width:60px}
+
+@media (min-width:960px){
+  body{padding-block:20px}
+  main{max-width:1240px;gap:16px;align-items:stretch}
+  section[aria-label="Contact"]{grid-area:contact}
+  section[aria-label="About EVarka"]{grid-area:about}
+  section[aria-label="Stay in touch"]{grid-area:meet}
+  section[aria-label="Save contact"]{grid-area:qr;align-content:center}
+  footer{grid-area:foot}
+  .card{padding:22px;gap:16px}
+  h1{font-size:34px}
+  .meet form{gap:8px}
+  .meet input,.meet select{padding:9px 12px}
+  .qr .frame{width:min(100%,210px)}
+}
+
+@media (min-width:960px){
+  main{grid-template-columns:1fr 1fr minmax(240px,.62fr);grid-template-areas:"contact meet qr" "about about about" "foot foot foot"}
+  .about{grid-template-columns:1.15fr 1.1fr 1fr;grid-template-areas:"head two chips" "lead two facts";column-gap:28px;row-gap:12px;align-items:start}
+  .about>div:first-child{grid-area:head}.about .lead{grid-area:lead}.about .two{grid-area:two;align-self:stretch}.about .chips{grid-area:chips;align-content:start}.about .facts{grid-area:facts}
+  .about .side{align-content:start}
+}
+
+@media (min-width:960px) and (max-height:860px){
+  body{padding-block:12px}
+  main{gap:12px}
+  .card{padding:18px 20px;gap:12px}
+  h1{font-size:30px}
+  .role{font-size:15px;margin-top:2px}
+  .row{padding:8px 0}
+  .save,.wa,.links a{padding:10px}
+  .meet h2{font-size:20px}
+  .meet input,.meet select{padding:7px 10px}
+  .meet button{padding:11px}
+  .qr .frame{width:min(100%,190px);padding:10px}
+  .about h2{font-size:21px}
+  .lead{font-size:14px}
+  .fig{font-size:22px}
+  .side{padding:12px}
+}
 </style>
 </head>
 <body>
